@@ -3,12 +3,14 @@ package com.example.jetweather.navigation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.jetweather.screens.MainScreen
 import com.example.jetweather.screens.SplashScreen
 import com.example.jetweather.screens.WeatherScreens
+import com.example.jetweather.viewModel.MainViewModel
 
 @Composable
 fun WeatherNavigation() {
@@ -22,7 +24,8 @@ fun WeatherNavigation() {
             SplashScreen(navController)
         }
         composable(WeatherScreens.MainScreen.name){
-            MainScreen(navController)
+            val mainViewModel = hiltViewModel<MainViewModel>()
+            MainScreen(navController,mainViewModel)
         }
     }
 }
