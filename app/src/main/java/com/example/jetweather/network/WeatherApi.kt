@@ -11,7 +11,7 @@ import javax.inject.Singleton
 interface WeatherApi {
 
     @GET("data/2.5/forecast")
-    fun getWeather(
+    suspend fun getWeather(
         @Query("q") query:String,
         @Query("appid") appid:String=API_KEY,
         @Query("units") units:String="metric",
