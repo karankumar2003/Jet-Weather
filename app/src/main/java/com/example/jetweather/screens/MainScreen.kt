@@ -41,6 +41,7 @@ import com.example.jetweather.components.WeatherImage
 import com.example.jetweather.data.DataOrException
 import com.example.jetweather.model.Weather
 import com.example.jetweather.util.dateFormat
+import com.example.jetweather.util.timeFormat
 import com.example.jetweather.viewModel.MainViewModel
 
 
@@ -106,6 +107,9 @@ fun MainScreenContent(
             wind = weatherData.data!!.list[0].wind.speed.toString(),
             humidity = weatherData.data!!.list[0].main.humidity.toString(),
             pressure = weatherData.data!!.list[0].main.pressure.toString(),
+            visibility=weatherData.data!!.list[0].visibility.toString(),
+            sunrise= timeFormat( weatherData.data!!.city.sunrise),
+            sunset= timeFormat( weatherData.data!!.city.sunset),
             modifier = Modifier
                 .padding(10.dp)
         )

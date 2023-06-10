@@ -13,7 +13,13 @@ fun dateFormat(timeStamp:Int) : String{
 }
 
 fun timeFormat(timeStamp: Int) : String{
-    val sdf = SimpleDateFormat("hh:mm:aa")
+    val sdf = SimpleDateFormat("hh:mm aa")
     val date = Date(timeStamp.toLong() * 1000)
     return sdf.format(date)
+}
+
+fun convertDecimal(number : String):String{
+   val a =  number.toFloat() /1000 // convert into km
+    val formattedString = "%.1f".format(a)
+    return formattedString
 }

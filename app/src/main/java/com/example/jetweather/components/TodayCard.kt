@@ -38,7 +38,7 @@ fun TodayCard(
             modifier = Modifier
                 .padding(10.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             val imageUrl =
                 "https://openweathermap.org/img/wn/${weatherData.data!!.list[0].weather[0].icon}@2x.png"
@@ -48,11 +48,10 @@ fun TodayCard(
 
                 Text(
                     text = weatherData.data!!.list[0].weather[0].description,
-                    fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleLarge
                 )
             }
-                Spacer(modifier = Modifier.width(30.dp))
+
             Column(verticalArrangement = Arrangement.SpaceEvenly
             , modifier = Modifier.fillMaxHeight()) {
                 Text("Today", style = MaterialTheme.typography.titleMedium)
@@ -64,7 +63,6 @@ fun TodayCard(
 
                 Text(
                     text = "Feels like " + weatherData.data!!.list[0].main.feels_like.toInt() + "°",
-                    fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.labelMedium,
                     fontSize = 16.sp
                 )
