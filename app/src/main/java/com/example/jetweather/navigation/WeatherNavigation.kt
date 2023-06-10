@@ -22,7 +22,7 @@ fun WeatherNavigation() {
             SplashScreen(navController)
         }
         composable(WeatherScreens.MainScreen.name){
-            MainScreen()
+            MainScreen(navController)
         }
     }
 }

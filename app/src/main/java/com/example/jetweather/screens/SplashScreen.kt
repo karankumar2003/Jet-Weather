@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jetweather.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -35,11 +36,12 @@ fun SplashScreen(navController: NavController) {
             0.9f,
             animationSpec = tween(800,
                 easing = {
-                    OvershootInterpolator(0.8f).getInterpolation(it)
+                    OvershootInterpolator(4f).getInterpolation(it)
                 }
 
             )
         )
+        delay(200L)
         navController.navigate(WeatherScreens.MainScreen.name)
 
     }
