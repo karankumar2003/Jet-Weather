@@ -19,7 +19,7 @@ interface FavoriteDao {
     suspend fun getFavoriteById(city:String):Favorite
 
     @Upsert()
-    suspend fun insertFavorite(favoriteItem:Favorite)
+    suspend fun upsertFavorite(favoriteItem:Favorite)
 
     @Delete
     suspend fun deleteFavorite(favoriteItem: Favorite)
