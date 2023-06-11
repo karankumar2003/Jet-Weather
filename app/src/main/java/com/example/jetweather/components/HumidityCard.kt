@@ -115,7 +115,7 @@ fun HumidityCard(
                     contentDescription = "Pressure",
                     Modifier.size(30.dp)
                 )
-                Text(text = pressure + " psi")
+                Text(text = pressure + " hPa")
                 Text(
                     text = "Pressure",
                     modifier = Modifier.alpha(0.8f),

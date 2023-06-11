@@ -40,7 +40,7 @@ fun SearchScreen(navController: NavController) {
 fun SearchField(
     onSearch: (String) -> Unit,
     placeholder: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val searchState = rememberSaveable {
         mutableStateOf("")
@@ -56,6 +56,9 @@ fun SearchField(
         value = searchState.value,
         onValueChange = {
             searchState.value = it
+        },
+        label={
+            Text(text = "Enter a city")
         },
         trailingIcon = {
             Icon(

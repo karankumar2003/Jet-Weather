@@ -20,7 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,73 +32,67 @@ import com.example.jetweather.util.timeFormat
 fun WeeklyDetail(
     weatherData: DataOrException<Weather, Boolean, Exception>,
     modifier: Modifier = Modifier
+
 ) {
-    Column(modifier = modifier) {
-        Text(
-            text = "This Week",
-            Modifier
-                .fillMaxWidth()
-                .padding(bottom = 4.dp),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium
-        )
-        LazyColumn(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .clip(RoundedCornerShape(16.dp))
-        ) {
-            items(weatherData.data!!.list) {
+    LazyColumn(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        items(weatherData.data!!.list) {
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val imageUrl =
-                        "https://openweathermap.org/img/wn/${it.weather[0].icon}@2x.png"
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val imageUrl =
+                    "https://openweathermap.org/img/wn/${it.weather[0].icon}@2x.png"
 
-                    Text(buildAnnotatedString {
+                Text(
+                    buildAnnotatedString {
                         withStyle(SpanStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)) {
                             append(dayFormat(it.dt))
                         }
                         append(", " + timeFormat(it.dt))
                     }, fontWeight = FontWeight.Light
+                )
+
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    WeatherImage(imageUrl = imageUrl, modifier = Modifier.size(75.dp))
+                    Text(
+                        it.weather[0].description.replaceFirstChar {
+                            it.uppercase()
+                        },
+                        modifier = Modifier,
+                        fontSize = 12.sp
                     )
-
-
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        WeatherImage(imageUrl = imageUrl, modifier = Modifier.size(75.dp))
-                        Text(
-                            it.weather[0].description.replaceFirstChar {
-                                it.uppercase()
-                            },
-                            modifier = Modifier,
-                            fontSize = 12.sp
-                        )
-
-                    }
-
-                    Text(buildAnnotatedString {
-                        append(it.main.temp_max.toInt().toString()+"°/")
-                        withStyle(SpanStyle(
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                            fontWeight = FontWeight.Light,
-                            fontSize = 16.sp
-                        )) {
-                            append(it.main.temp_min.toInt().toString()+"°")
-                        }
-                    },
-                    fontWeight = FontWeight.Bold, fontSize = 24.sp
-                    )
-
 
                 }
 
-                Divider()
+                Text(
+                    buildAnnotatedString {
+                        append(it.main.temp_max.toInt().toString() + "°/")
+                        withStyle(
+                            SpanStyle(
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                fontWeight = FontWeight.Light,
+                                fontSize = 16.sp
+                            )
+                        ) {
+                            append(it.main.temp_min.toInt().toString() + "°")
+                        }
+                    },
+                    fontWeight = FontWeight.Bold, fontSize = 24.sp
+                )
+
 
             }
+
+            Divider()
+
         }
     }
 }

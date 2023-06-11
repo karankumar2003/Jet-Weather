@@ -7,13 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -62,7 +65,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel, city:
                 modifier = Modifier
                     .padding(it)
                     .fillMaxSize(),
-                weatherData=weatherData
+                weatherData = weatherData
             )
         }
 
@@ -72,7 +75,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel, city:
 @Composable
 fun MainScreenContent(
     modifier: Modifier = Modifier,
-    weatherData:DataOrException<Weather, Boolean, Exception>
+    weatherData: DataOrException<Weather, Boolean, Exception>
 ) {
 
     Column(
@@ -85,7 +88,11 @@ fun MainScreenContent(
             weatherData = weatherData,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
+                .padding(
+                    top = 10.dp,
+                    start = 10.dp,
+                    end = 10.dp
+                )
                 .height(150.dp)
         )
 
@@ -94,15 +101,29 @@ fun MainScreenContent(
             wind = weatherData.data!!.list[0].wind.speed.toString(),
             humidity = weatherData.data!!.list[0].main.humidity.toString(),
             pressure = weatherData.data!!.list[0].main.pressure.toString(),
-            visibility=weatherData.data!!.list[0].visibility.toString(),
-            sunrise= timeFormat( weatherData.data!!.city.sunrise),
-            sunset= timeFormat( weatherData.data!!.city.sunset),
+            visibility = weatherData.data!!.list[0].visibility.toString(),
+            sunrise = timeFormat(weatherData.data!!.city.sunrise),
+            sunset = timeFormat(weatherData.data!!.city.sunset),
             modifier = Modifier
-                .padding(10.dp)
+                .padding(
+                    top = 10.dp,
+                    start = 10.dp,
+                    end = 10.dp
+                )
         )
-        WeeklyDetail(weatherData,modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
+
+        Text("This Week",modifier=Modifier.padding(top=5.dp))
+
+        WeeklyDetail(
+            weatherData, modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = 5.dp,
+                    start = 10.dp,
+                    end = 10.dp
+                )
+                .clip(RoundedCornerShape(16.dp))
+
         )
 
     }

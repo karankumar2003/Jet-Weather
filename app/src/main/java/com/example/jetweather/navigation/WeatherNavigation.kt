@@ -10,8 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.jetweather.screens.AboutScreen
+import com.example.jetweather.screens.FavoriteScreen
 import com.example.jetweather.screens.MainScreen
 import com.example.jetweather.screens.SearchScreen
+import com.example.jetweather.screens.SettingsScreen
 import com.example.jetweather.screens.SplashScreen
 import com.example.jetweather.screens.WeatherScreens
 import com.example.jetweather.viewModel.MainViewModel
@@ -24,9 +27,13 @@ fun WeatherNavigation() {
         startDestination = WeatherScreens.SplashScreen.name,
         modifier = Modifier.fillMaxSize()
     ) {
+
+
         composable(WeatherScreens.SplashScreen.name) {
             SplashScreen(navController)
         }
+
+
 
 
         composable(WeatherScreens.MainScreen.name + "/{city}",
@@ -44,13 +51,26 @@ fun WeatherNavigation() {
 
             }
 
-
-
         }
 
 
         composable(WeatherScreens.SearchScreen.name) {
             SearchScreen(navController=navController)
         }
+
+        composable(WeatherScreens.FavoriteScreen.name) {
+            FavoriteScreen(navController)
+        }
+
+        composable(WeatherScreens.AboutScreen.name) {
+            AboutScreen(navController)
+        }
+
+        composable(WeatherScreens.SettingScreen.name) {
+            SettingsScreen(navController)
+        }
+
+
+
     }
 }
