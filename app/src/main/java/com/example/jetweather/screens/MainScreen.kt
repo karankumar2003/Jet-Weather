@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +39,7 @@ import com.example.jetweather.components.HumidityCard
 import com.example.jetweather.components.TodayCard
 import com.example.jetweather.components.WeatherAppBar
 import com.example.jetweather.components.WeatherImage
+import com.example.jetweather.components.WeeklyDetail
 import com.example.jetweather.data.DataOrException
 import com.example.jetweather.model.Weather
 import com.example.jetweather.util.dateFormat
@@ -68,7 +70,10 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                 WeatherAppBar(
                     title = "${weatherData.data!!.city.name}, ${weatherData.data!!.city.country}",
                     isMainScreen = true,
-                    navController = navController
+                    navController = navController,
+                    onSearchClicked = {
+                        navController.navigate(WeatherScreens.SearchScreen.name)
+                    }
                 )
             }
         ) {
@@ -97,7 +102,8 @@ fun MainScreenContent(
         TodayCard(
             elevation = 4.dp,
             weatherData = weatherData,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(10.dp)
                 .height(150.dp)
         )
@@ -112,6 +118,9 @@ fun MainScreenContent(
             sunset= timeFormat( weatherData.data!!.city.sunset),
             modifier = Modifier
                 .padding(10.dp)
+        )
+        WeeklyDetail(weatherData,modifier = Modifier.fillMaxSize()
+            .padding(10.dp)
         )
 
     }

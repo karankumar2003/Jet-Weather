@@ -3,19 +3,16 @@ package com.example.jetweather.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,13 +44,16 @@ fun TodayCard(
                 WeatherImage(imageUrl = imageUrl, modifier = Modifier.size(95.dp))
 
                 Text(
-                    text = weatherData.data!!.list[0].weather[0].description,
+                    text = weatherData.data!!.list[0].weather[0].description.replaceFirstChar {
+                        it.uppercase()
+                    },
                     style = MaterialTheme.typography.titleLarge
                 )
             }
 
-            Column(verticalArrangement = Arrangement.SpaceEvenly
-            , modifier = Modifier.fillMaxHeight()) {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxHeight()
+            ) {
                 Text("Today", style = MaterialTheme.typography.titleMedium)
                 Text(
                     weatherData.data!!.list[0].main.temp.toInt().toString() + "°",

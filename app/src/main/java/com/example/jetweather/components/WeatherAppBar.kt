@@ -23,7 +23,8 @@ fun WeatherAppBar(
     title: String = "Rewari",
     isMainScreen: Boolean = true,
     elevation: Dp = 0.dp,
-    navController: NavController
+    navController: NavController,
+    onSearchClicked:() -> Unit
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -32,7 +33,7 @@ fun WeatherAppBar(
         actions = {
 
             if (isMainScreen) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = onSearchClicked) {
                     Icon(imageVector = Icons.Default.Search, "Search Icon")
                 }
                 IconButton(onClick = { /*TODO*/ }) {

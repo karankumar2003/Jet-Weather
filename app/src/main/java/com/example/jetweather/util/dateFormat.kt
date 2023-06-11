@@ -1,9 +1,7 @@
 package com.example.jetweather.util
 
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
-import kotlin.math.log
 
 fun dateFormat(timeStamp:Int) : String{
     val sdf = SimpleDateFormat("EEE, MMM d")
@@ -17,6 +15,12 @@ fun timeFormat(timeStamp: Int) : String{
     val date = Date(timeStamp.toLong() * 1000)
     return sdf.format(date)
 }
+fun dayFormat(timeStamp: Int) : String{
+    val sdf = SimpleDateFormat("EEE")
+    val date = Date(timeStamp.toLong() * 1000)
+    return sdf.format(date)
+}
+
 
 fun convertDecimal(number : String):String{
    val a =  number.toFloat() /1000 // convert into km
