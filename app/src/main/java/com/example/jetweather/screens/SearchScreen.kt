@@ -12,56 +12,70 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(navController: NavController) {
     SearchField(placeholder = "Rewari",
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        onSearch = {}
+        onSearch = {
+            navController.navigate(WeatherScreens.MainScreen.name+"/${it}")
+        }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchField(
-    onSearch: () -> Unit,
+    onSearch: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
-    maxLines: Int = 1,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-    keyboardActions: KeyboardActions = KeyboardActions(onSearch = {
-        onSearch()
-    })
 ) {
     val searchState = rememberSaveable {
         mutableStateOf("")
     }
+
+    val isValid = remember(searchState.value){
+        searchState.value.trim().isNotEmpty()
+    }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedTextField(
         modifier = modifier,
         value = searchState.value,
         onValueChange = {
             searchState.value = it
         },
-        placeholder = {
-            Text(placeholder)
-        },
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Search",
-                modifier.clickable {
-                    onSearch()
-                })
+               modifier= Modifier.clickable {
+                    onSearch(searchState.value)
+                }
+               )
         },
-        maxLines = maxLines,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions{
+            if(!isValid){
+                return@KeyboardActions
+            }else{
+                onSearch(searchState.value)
+                searchState.value = ""
+                keyboardController?.hide()
+            }
+        }
     )
 }
