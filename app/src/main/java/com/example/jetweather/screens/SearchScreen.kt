@@ -1,6 +1,7 @@
 package com.example.jetweather.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -22,17 +23,29 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.jetweather.components.WeatherAppBar
 
 @Composable
 fun SearchScreen(navController: NavController) {
-    SearchField(placeholder = "Rewari",
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-        onSearch = {
-            navController.navigate(WeatherScreens.MainScreen.name+"/${it}")
-        }
-    )
+    Column() {
+
+        WeatherAppBar(
+            navController = navController,
+            title="Search",
+            isMainScreen = false,
+
+            )
+
+        SearchField(placeholder = "Rewari",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            onSearch = {
+                navController.navigate(WeatherScreens.MainScreen.name+"/${it}")
+            }
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)

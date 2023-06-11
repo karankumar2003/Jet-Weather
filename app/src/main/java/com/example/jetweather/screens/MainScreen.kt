@@ -130,7 +130,3 @@ fun MainScreenContent(
 
 }
 
-@Preview
-@Composable
-fun MainScreenPreview() {
-}
