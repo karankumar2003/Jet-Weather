@@ -4,8 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -31,6 +33,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.jetweather.components.CustomDialog
 import com.example.jetweather.components.WeatherAppBar
 import com.example.jetweather.viewModel.PreferencesViewModel
 import kotlinx.coroutines.launch
@@ -43,16 +46,29 @@ fun SettingsScreen(
 ) {
     val sheetState = rememberModalBottomSheetState()
     val defaultCity = preferencesViewModel.defaultCity.collectAsState().value
+    val defaultUnit = preferencesViewModel.defaultUnit.collectAsState().value
 
+    val showDialog = remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         topBar = {
             WeatherAppBar(navController = navController, isMainScreen = false, title = "Settings")
         }
     ) {
-        val openBottomSheet = remember {
+        val openUnitSheet = remember {
             mutableStateOf(false)
         }
+
+        if(showDialog.value){
+            CustomDialog(setShowDialog = { showDialog.value = it}) {city->
+                preferencesViewModel.saveDefaultCity(city)
+                showDialog.value = false
+            }
+        }
+
+
         Column(
             modifier = Modifier
                 .padding(it)
@@ -60,7 +76,9 @@ fun SettingsScreen(
                 .padding(10.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -70,14 +88,15 @@ fun SettingsScreen(
                 Text("Dynamic Theme", style = MaterialTheme.typography.titleMedium)
                 Switch(checked = switchState.value, onCheckedChange = {
                     switchState.value = !switchState.value
-                })
+                }, modifier = Modifier.padding(end = 10.dp))
             }
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(5.dp)
                     .clickable {
-                        openBottomSheet.value = true
+                        openUnitSheet.value = true
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -87,7 +106,7 @@ fun SettingsScreen(
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
 
-                    Text(text = defaultCity, modifier = Modifier.alpha(0.8f))
+                    Text(text = defaultUnit, modifier = Modifier.alpha(0.8f))
 
                     Icon(
                         Icons.Default.KeyboardArrowRight,
@@ -99,11 +118,19 @@ fun SettingsScreen(
 
             }
 
+
+
+
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(5.dp)
+                    .clickable {
+                        showDialog.value = true
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
+
             ) {
 
                 Text("Default City", style = MaterialTheme.typography.titleMedium)
@@ -118,39 +145,39 @@ fun SettingsScreen(
                         modifier = Modifier.padding(start = 4.dp, end = 5.dp)
                     )
                 }
-
-
             }
-
-
         }
 
-        if (openBottomSheet.value) {
+        if (openUnitSheet.value) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    openBottomSheet.value = false
+                    openUnitSheet.value = false
                 },
                 sheetState = sheetState,
 
                 ) {
 
-                SheetContent(preferencesViewModel, openBottomSheet,sheetState)
+                UnitSheetContent(preferencesViewModel, openUnitSheet, sheetState)
 
             }
         }
+
 
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SheetContent(
+fun UnitSheetContent(
     preferencesViewModel: PreferencesViewModel,
     openBottomSheet: MutableState<Boolean>,
-    sheetState:SheetState
+    sheetState: SheetState
 ) {
     val scope = rememberCoroutineScope()
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+
+        Spacer(modifier = Modifier.height(10.dp))
+
         Button(
             onClick = {
                 preferencesViewModel.saveDefaultUnit("Imperial")
@@ -167,6 +194,10 @@ fun SheetContent(
                 fontSize = 20.sp
             )
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+
         Button(
             onClick = {
                 preferencesViewModel.saveDefaultUnit("Metric")
@@ -183,4 +214,8 @@ fun SheetContent(
             )
         }
     }
+
+    Spacer(modifier = Modifier.height(10.dp))
+
 }
+
