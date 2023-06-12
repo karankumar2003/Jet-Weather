@@ -83,11 +83,14 @@ fun SettingsScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                val switchState = remember { mutableStateOf(false) }
+                val switchState = preferencesViewModel.isDefaultThemeDynamic.collectAsState()
+                var switch = switchState.value
 
                 Text("Dynamic Theme", style = MaterialTheme.typography.titleMedium)
-                Switch(checked = switchState.value, onCheckedChange = {
-                    switchState.value = !switchState.value
+                Switch(checked = switch, onCheckedChange = {
+                    switch = it
+                    preferencesViewModel.saveDynamicTheme(switch)
+
                 }, modifier = Modifier.padding(end = 10.dp))
             }
 
