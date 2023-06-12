@@ -16,7 +16,7 @@ class UserPrefImpl(private val dataStore: DataStore<Preferences>) : UserPref {
         return dataStore.data.catch {
             emit(emptyPreferences())
         }.map {
-            it[CITY_KEY] ?: ""
+            it[CITY_KEY] ?: "Delhi"
         }
     }
 
@@ -32,7 +32,7 @@ class UserPrefImpl(private val dataStore: DataStore<Preferences>) : UserPref {
         return dataStore.data.catch {
             emit(emptyPreferences())
         }.map {
-            it[UNIT_KEY] ?: ""
+            it[UNIT_KEY] ?: "Metric"
         }
     }
 

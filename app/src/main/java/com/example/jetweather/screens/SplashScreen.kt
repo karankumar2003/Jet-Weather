@@ -35,16 +35,12 @@ fun SplashScreen(
     preferencesViewModel:PreferencesViewModel
 ) {
 
-
-
-
     val defaultCity = preferencesViewModel.defaultCity.collectAsState()
+    Log.d("Hahah", ": ${defaultCity.value}")
 
     val scale = remember {
         Animatable(initialValue = 0f)
     }
-
-
 
     LaunchedEffect(key1 = true) {
         scale.animateTo(
@@ -57,7 +53,7 @@ fun SplashScreen(
             )
         )
         delay(200L)
-
+        Log.d("Hahah", "SplashScreen: ${defaultCity.value}")
         navController.navigate(WeatherScreens.MainScreen.name + "/${defaultCity.value}"){
             popUpTo(WeatherScreens.SplashScreen.name){
                 inclusive = true

@@ -14,7 +14,7 @@ import javax.inject.Inject
 class PreferencesViewModel @Inject constructor(private val pref: UserPref) : ViewModel() {
 
 
-    private val _defaultCity = MutableStateFlow<String>("")
+    private val _defaultCity = MutableStateFlow<String>("Delhi")
     val defaultCity = _defaultCity.asStateFlow()
 
     private val _defaultUnit = MutableStateFlow<String>("")
@@ -26,11 +26,9 @@ class PreferencesViewModel @Inject constructor(private val pref: UserPref) : Vie
     init {
         viewModelScope.launch {
             pref.getDefaultCity().collect { city ->
-                if (city != "") {
+
                     _defaultCity.value = city
-                } else {
-                    Log.d("PreferencesViewModel", "Empty default city")
-                }
+
             }
         }
 
