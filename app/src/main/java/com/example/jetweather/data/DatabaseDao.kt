@@ -2,15 +2,13 @@ package com.example.jetweather.data
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.jetweather.model.Favorite
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FavoriteDao {
+interface DatabaseDao {
 
     @Query("Select * from favorite_table")
     fun getAllFavorites() : Flow<List<Favorite>>
@@ -26,5 +24,7 @@ interface FavoriteDao {
 
     @Query("Delete from favorite_table")
     suspend fun deleteAllFavorites()
+
+
 
 }

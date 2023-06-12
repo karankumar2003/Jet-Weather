@@ -1,5 +1,6 @@
 package com.example.jetweather.components
 
+import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -16,9 +17,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jetweather.model.Favorite
@@ -70,7 +73,7 @@ fun WeatherAppBar(
 
                         DropdownMenuItem(text = { Text("About") }, onClick = {
                             navController.navigate(
-                                WeatherScreens.FavoriteScreen.name
+                                WeatherScreens.AboutScreen.name
                             )
                         },
                             leadingIcon = {
@@ -79,7 +82,7 @@ fun WeatherAppBar(
 
                         DropdownMenuItem(text = { Text("Settings") }, onClick = {
                             navController.navigate(
-                                WeatherScreens.FavoriteScreen.name
+                                WeatherScreens.SettingScreen.name
                             )
                         },
                             leadingIcon = {
@@ -93,14 +96,27 @@ fun WeatherAppBar(
 
         modifier = modifier,
         navigationIcon = {
+            val favList = favoriteViewModel.favoriteList.collectAsState().value
+            val context = LocalContext.current
             if (isMainScreen) {
+                if(favList.contains(Favorite(title))) {
 
-                IconButton(onClick = {
-                    favoriteViewModel.upsertFavorite(Favorite(title))
-                }) {
-                    Icon(imageVector = Icons.Default.FavoriteBorder, "Favorite Icon")
+
+                    IconButton(onClick = {
+                        favoriteViewModel.deleteFavorite(Favorite(title))
+                        Toast.makeText(context,"Removed From Favorites",Toast.LENGTH_SHORT).show()
+                    }) {
+                        Icon(imageVector = Icons.Default.Favorite, "Remove from favorites")
+                    }
+                }else{
+                    IconButton(onClick = {
+                        favoriteViewModel.upsertFavorite(Favorite(title))
+                        Toast.makeText(context,"Added to favorites",Toast.LENGTH_SHORT).show()
+
+                    }) {
+                        Icon(imageVector = Icons.Default.FavoriteBorder, "Add to favorites")
+                    }
                 }
-
 
 
             } else {

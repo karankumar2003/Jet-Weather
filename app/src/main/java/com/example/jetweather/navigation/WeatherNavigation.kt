@@ -18,6 +18,7 @@ import com.example.jetweather.screens.SettingsScreen
 import com.example.jetweather.screens.SplashScreen
 import com.example.jetweather.screens.WeatherScreens
 import com.example.jetweather.viewModel.MainViewModel
+import com.example.jetweather.viewModel.PreferencesViewModel
 
 @Composable
 fun WeatherNavigation() {
@@ -30,7 +31,8 @@ fun WeatherNavigation() {
 
 
         composable(WeatherScreens.SplashScreen.name) {
-            SplashScreen(navController)
+            val preferencesViewModel: PreferencesViewModel = hiltViewModel()
+            SplashScreen(navController,preferencesViewModel)
         }
 
 
@@ -67,7 +69,8 @@ fun WeatherNavigation() {
         }
 
         composable(WeatherScreens.SettingScreen.name) {
-            SettingsScreen(navController)
+            val preferencesViewModel = hiltViewModel<PreferencesViewModel>()
+            SettingsScreen(navController,preferencesViewModel)
         }
 
 

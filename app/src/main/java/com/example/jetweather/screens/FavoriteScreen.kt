@@ -53,7 +53,7 @@ fun FavoriteScreen(
             items(favList) { favoriteItem ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
@@ -64,8 +64,8 @@ fun FavoriteScreen(
 
 
                 ) {
-                    Text(favoriteItem.city, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
-                    Icon(Icons.Default.Delete, "delete")
+                    Text(favoriteItem.city, fontSize = 20.sp, modifier = Modifier.padding(top = 10.dp,bottom =10.dp,end=10.dp,start=30.dp))
+                    Icon(Icons.Default.Delete, "delete", modifier = Modifier.padding(top = 10.dp,bottom =10.dp,end=30.dp,start=10.dp))
                 }
                 Spacer(modifier = Modifier.height(10.dp))
             }
