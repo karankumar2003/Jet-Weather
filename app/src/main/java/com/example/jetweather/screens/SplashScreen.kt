@@ -57,8 +57,12 @@ fun SplashScreen(
             )
         )
         delay(200L)
-        Log.d("Hahah", "SplashScreen value of default city: ${defaultCity.value}")
-        navController.navigate(WeatherScreens.MainScreen.name + "/${defaultCity.value}")
+
+        navController.navigate(WeatherScreens.MainScreen.name + "/${defaultCity.value}"){
+            popUpTo(WeatherScreens.SplashScreen.name){
+                inclusive = true
+            }
+        }
 
     }
 

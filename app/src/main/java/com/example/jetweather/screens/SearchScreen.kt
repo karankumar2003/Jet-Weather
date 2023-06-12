@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.PopUpToBuilder
 import com.example.jetweather.components.WeatherAppBar
 
 @Composable
@@ -38,12 +39,16 @@ fun SearchScreen(
 
             )
 
-        SearchField(placeholder = "Rewari",
+        SearchField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
             onSearch = {
-                navController.navigate(WeatherScreens.MainScreen.name+"/${it}")
+                navController.navigate(WeatherScreens.MainScreen.name+"/${it}"){
+                    popUpTo(WeatherScreens.SearchScreen.name){
+                        inclusive = true
+                    }
+                }
             }
         )
     }
@@ -54,7 +59,6 @@ fun SearchScreen(
 @Composable
 fun SearchField(
     onSearch: (String) -> Unit,
-    placeholder: String,
     modifier: Modifier = Modifier
 ) {
     val searchState = rememberSaveable {
